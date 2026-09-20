@@ -5,20 +5,26 @@ import PackageDescription
 
 let package = Package(
     name: "TrueType",
+    platforms: [
+        .iOS(.v14),
+        .tvOS(.v14),
+    ],
     products: [
-        // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "TrueType",
             targets: ["TrueType"]
         ),
     ],
     targets: [
-        // Targets are the basic building blocks of a package, defining a module or a test suite.
-        // Targets can depend on other targets in this package and products from dependencies.
+        // 主 Swift target：开关配置、swizzle、SwiftUI 支持。
         .target(
-            name: "TrueType"
+            name: "TrueType",
+            dependencies: ["TrueTypeAutoStart"]
         ),
-
+        // 仅含 Objective-C `+load` 的引导 target，实现「引入即生效」。
+        .target(
+            name: "TrueTypeAutoStart"
+        ),
     ],
     swiftLanguageModes: [.v6]
 )
